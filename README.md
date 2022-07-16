@@ -8,7 +8,7 @@ version.
 Adapted for Enigma2 Py3 by Lululla
 
 
-<img src="https://github.com/Belfagor2005/shiffe/blob/main/usr/lib/enigma2/python/Plugins/Extensions/Shiffe/Schiffe.png?raw=true"> 
+<img src="https://github.com/Belfagor2005/schiffe/blob/main/usr/lib/enigma2/python/Plugins/Extensions/Schiffe/Schiffe.png?raw=true"> 
 
 
 <img src="https://i.ibb.co/fFFT93b/schiffe.jpg">

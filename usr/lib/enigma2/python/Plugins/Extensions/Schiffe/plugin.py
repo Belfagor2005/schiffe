@@ -6,8 +6,8 @@
 # the terms of the GNU General Public License as published by the Free
 # Software Foundation; either version 2, or (at your option) any later
 # version.
+#Adapted from Lululla for Py3 Enigma2 20220713
 #===============================================================================
-
 from Plugins.Plugin import PluginDescriptor
 from Screens.Screen import Screen
 from Screens.MessageBox import MessageBox
@@ -21,15 +21,8 @@ import xml.etree.cElementTree
 import random
 import os
 VERSION = "0.3r0"
-SAVEFILE = resolveFilename(SCOPE_CURRENT_PLUGIN, "Extensions/Schiffe/Schiffe.sav")
+SAVEFILE = resolveFilename(SCOPE_CURRENT_PLUGIN, "Extensions/Schiffe/schiffe.sav")
 
-
-if not os.path.isfile(SAVEFILE):
-    try:    
-        open(SAVEFILE, "a").close()
-        
-    except IOError:
-        pass
 XMAX  = 10
 YMAX  = 10
 XYMAX = 100
@@ -41,7 +34,7 @@ def main(session,**kwargs):
     session.open(Schiffe)
 
 def Plugins(**kwargs):
-    return [PluginDescriptor(name="Schiffe versenken", description=_("Battleship Game"), where = [PluginDescriptor.WHERE_PLUGINMENU],
+    return [PluginDescriptor(name="Schiffe", description=_("Battleship Game"), where = [PluginDescriptor.WHERE_PLUGINMENU],
             icon="Schiffe.png", fnc=main)]
 
 # Game cell...
@@ -192,7 +185,7 @@ class Schiffe(Screen):
                     color = get_attr("color")
                     # is it a "named" color?
                     if color[0] != '#':
-                        # is "named" color, have to look in dictionary... 
+                        # is "named" color, have to look in dictionary...
                         color = colorNames[color]
                     # at least get the background color...
                     if type == "Background":
@@ -323,7 +316,7 @@ class Schiffe(Screen):
 
     def left_pressed(self):
         if self.Focus > 0:
-            if self.Focus % XMAX == 0: return 
+            if self.Focus % XMAX == 0: return
             cell = self.boxCells[self.Focus]
             cell.setFocus(False)
             cell.paint()
@@ -347,9 +340,9 @@ class Schiffe(Screen):
     def timerHandler(self):
             # self.instance.setTitle("Schiffe versenken %s %10d shots %10d sec" % (VERSION, self.moves, self.cnt))
             self["result"].setText("%10d shots" % self.moves)
-            self["movex"].setText("%10d sec" % self.cnt)        
+            self["movex"].setText("%10d sec" % self.cnt)
             self.cnt += 1
-            
+
     # create new game...
     def new_game(self, loadFromFile = False):
         self["message"].setText("")
@@ -396,65 +389,70 @@ class Schiffe(Screen):
                 cell.setHide(False)
                 cell.paint()
 
-    # save running game to file...
     def save_game(self):
-        if not self.gameover:
-            sav = open(SAVEFILE, "w")
-            sav.write( "%d %d\n" % (self.moves, self.cnt) )
+        try:
+            # if not self.gameover:
+                sav = open(SAVEFILE, "w")
+                sav.write( "%d %d\n" % (self.moves, self.cnt) )
+                for i, cell in enumerate(self.boxCells):
+                    sav.write("%d " % cell.value())
+                    if (i+1) % XMAX == 0:
+                        sav.write("\n")
+                for i, cell in enumerate(self.youCells):
+                    sav.write("%d " % cell.value())
+                    if (i+1) % XMAX == 0:
+                        sav.write("\n")
+                sav.close()
+            # else:
+                # # gameover no savefile needed...
+                # if fileExists(SAVEFILE):
+                    # import os
+                    # os.remove(SAVEFILE)
+        except IOError:
+            pass
 
-            for i, cell in enumerate(self.boxCells):
-                sav.write("%d " % cell.value())
-                if (i+1) % XMAX == 0:
-                    sav.write("\n")
-
-            for i, cell in enumerate(self.youCells):
-                sav.write("%d " % cell.value())
-                if (i+1) % XMAX == 0:
-                    sav.write("\n")
-
-            sav.close()
-        else:
-            # gameover no savefile needed...
-            if fileExists(SAVEFILE):
-                import os
-                os.remove(SAVEFILE)
 
     # load game from file...
+
     def load_game(self):
-        if fileExists(SAVEFILE, "r"):
-            sav = open(SAVEFILE, "r")
-            inp = sav.readline().strip()
-            inplist = inp.split()
-            self.moves = int(float(inplist[0]))            
-            self.cnt = int(float(inplist[1]))             
-            # self.moves = int(inplist[0])
-            # self.cnt = int(inplist[1])    
-            self.box = []
-            for y in range(YMAX):
+        try:    
+            if fileExists(SAVEFILE, "r"):
+                sav = open(SAVEFILE, "r")
                 inp = sav.readline().strip()
-                inp = inp.strip()
                 inplist = inp.split()
-                for x in inplist:
-                    self.box.append(int(x))
+                
+                self.moves = int(float(inplist[0]))
+                self.cnt = int(float(inplist[1]))
+                # self.moves = int(inplist[0])
+                # self.cnt = int(inplist[1])
+                self.box = []
+                for y in range(YMAX):
+                    inp = sav.readline()
+                    inp = inp.strip()
+                    inplist = inp.split()
+                    for x in inplist:
+                        self.box.append(int(x))
 
-            self.you = []
-            for y in range(YMAX):
-                inp = sav.readline().strip()
-                inp = inp.strip()
-                inplist = inp.split()
-                for x in inplist:
-                    self.you.append(int(x))
+                self.you = []
+                for y in range(YMAX):
+                    inp = sav.readline()
+                    inp = inp.strip()
+                    inplist = inp.split()
+                    for x in inplist:
+                        self.you.append(int(x))
 
-            sav.close()
-            self.new_game(True)
-        else:
-            self.new_game()
-
+                sav.close()
+                self.new_game(True)
+            else:
+                self.new_game()
+        except Exception as e:
+            print('error: ', str(e))
+            pass           
+            
     def quit_game(self):
         self.timer.stop()
-        # self.save_game()
+        self.save_game()
         self.close()
-
 ###### enigma2 stuff ends here... ######
 
 #good old C function :D
@@ -503,11 +501,11 @@ def ships(field):
                         # place ship vertical...
                         x = rand() % XMAX
                         y = rand() % (YMAX - shipLen + 1)
-                
+
                         for j in range(shipLen + 2):
                             if shadow[x][y+j] != 0 or shadow[x+1][y+j] != 0 or shadow[x+2][y+j] != 0:
                                 ok = False
-                            
+
                         if ok:
                             for j in range(shipLen):
                                 field[x+(y+j)*XMAX] = 3
@@ -531,7 +529,7 @@ def calcNewField(field):
                     field[lx+ly*XMAX-1] = 2
                     return
                 if field[lx+ly*XMAX-1] == 3:
-                    field[lx+ly*XMAX-1] = 4 
+                    field[lx+ly*XMAX-1] = 4
                     lx -=1
                     if lx>0      and ly>0      and field[lx+ly*XMAX-1-XMAX] != 2: field[lx+ly*XMAX-1-XMAX] = 1
                     if lx>0      and ly<YMAX-1 and field[lx+ly*XMAX-1+XMAX] != 2: field[lx+ly*XMAX-1+XMAX] = 1
@@ -560,7 +558,7 @@ def calcNewField(field):
                     if lx>0      and ly>0      and field[lx+ly*XMAX-1-XMAX] != 2: field[lx+ly*XMAX-1-XMAX] = 1
                     if lx>0      and ly<YMAX-1 and field[lx+ly*XMAX-1+XMAX] != 2: field[lx+ly*XMAX-1+XMAX] = 1
                     if lx<XMAX-1 and ly>0      and field[lx+ly*XMAX+1-XMAX] != 2: field[lx+ly*XMAX+1-XMAX] = 1
-                    if lx<XMAX-1 and ly<YMAX-1 and field[lx+ly*XMAX+1+XMAX] != 2: field[lx+ly*XMAX+1+XMAX] = 1          
+                    if lx<XMAX-1 and ly<YMAX-1 and field[lx+ly*XMAX+1+XMAX] != 2: field[lx+ly*XMAX+1+XMAX] = 1
                     return
             if ly<YMAX-1:
                 if field[lx+ly*XMAX+XMAX] == 0:
@@ -584,11 +582,11 @@ def calcNewField(field):
         else:
             x = rand() % XMAX
             y = rand() % YMAX
-        
+
         if field[x+y*XMAX] == 0: #fail (water)
             field[x+y*XMAX] = 2
             return
-        
+
         if field[x+y*XMAX] == 3: #hit ship
             field[x+y*XMAX] = 4
             if x>0      and y>0     : field[x+y*XMAX-1-XMAX] = 1
