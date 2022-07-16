@@ -1,0 +1,11 @@
+Package: enigma2-plugin-extensions-schiffe
+Version: 0.3r0
+Section: base
+Priority: optional
+Architecture: all
+Maintainer: *
+Description: *
+Source: /
+Homepage: *
+OE: 2.0 - 2.2 - 2.5 -2.6
+License: *
