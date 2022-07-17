@@ -6,7 +6,7 @@
 # the terms of the GNU General Public License as published by the Free
 # Software Foundation; either version 2, or (at your option) any later
 # version.
-#Adapted from Lululla for Py3 Enigma2 20220713
+# Adapted from Lululla for Py3 Enigma2 20220713 - SKIN by MMark
 #===============================================================================
 from Plugins.Plugin import PluginDescriptor
 from Screens.Screen import Screen
@@ -30,8 +30,22 @@ XYMAX = 100
 def RGB(r,g,b):
     return (r<<16)|(g<<8)|b
 
+def getDesktopSize():
+    from enigma import getDesktop
+    s = getDesktop(0).size()
+    return (s.width(), s.height())
+
+def isFHD():
+    desktopSize = getDesktopSize()
+    return desktopSize[0] == 1920
+
 def main(session,**kwargs):
-    session.open(Schiffe)
+    if isFHD():
+        session.open(Schiffe)    
+    else:
+        from Screens.MessageBox import MessageBox
+        from Tools.Notifications import AddPopup
+        AddPopup(_("Sorry but Schiffe only works with FHD skins :("),MessageBox.TYPE_INFO, 10, 'Sorry')
 
 def Plugins(**kwargs):
     return [PluginDescriptor(name="Schiffe", description=_("Battleship Game"), where = [PluginDescriptor.WHERE_PLUGINMENU],
@@ -103,7 +117,6 @@ class Schiffe(Screen):
         # get framebuffer resolution...
         desk = getDesktop(0)
         wdesktop = int(desk.size().width())
-
         # cellsize depends from framebuffer resolution...
         if wdesktop == 720:
             CELL_SIZE = 20
