@@ -20,7 +20,7 @@ from enigma import eTimer, gFont, getDesktop, RT_HALIGN_CENTER, RT_VALIGN_CENTER
 import xml.etree.cElementTree
 import random
 import os
-VERSION = "0.3r0"
+VERSION = "7.1r0"
 SAVEFILE = resolveFilename(SCOPE_CURRENT_PLUGIN, "Extensions/Schiffe/schiffe.sav")
 
 XMAX  = 10
@@ -40,15 +40,10 @@ def isFHD():
     return desktopSize[0] == 1920
 
 def main(session,**kwargs):
-    if isFHD():
-        session.open(Schiffe)    
-    else:
-        from Screens.MessageBox import MessageBox
-        from Tools.Notifications import AddPopup
-        AddPopup(_("Sorry but Schiffe only works with FHD skins :("),MessageBox.TYPE_INFO, 10, 'Sorry')
+    session.open(Schiffe)    
 
 def Plugins(**kwargs):
-    return [PluginDescriptor(name="Schiffe", description=_("Battleship Game"), where = [PluginDescriptor.WHERE_PLUGINMENU],
+    return [PluginDescriptor(name="Schiffe versenken", description=_("Battleship Game"), where = [PluginDescriptor.WHERE_PLUGINMENU],
             icon="Schiffe.png", fnc=main)]
 
 # Game cell...
@@ -107,7 +102,9 @@ class GameCell:
         self.canvas.fill(self.x+b, self.y+b, self.w-2*b, self.h-2*b, bg)
 
         if self.value_ == 2:
-            self.canvas.writeText(self.x, self.y, self.w, self.h, fg, bg, gFont("Regular", 30), '*', RT_HALIGN_CENTER|RT_VALIGN_CENTER)
+            self.canvas.writeText(self.x, self.y, self.w, self.h, fg, bg, gFont("Regular", 24), '*', RT_HALIGN_CENTER | RT_VALIGN_CENTER)
+            if isFHD():
+                self.canvas.writeText(self.x, self.y, self.w, self.h, fg, bg, gFont("Regular", 30), '*', RT_HALIGN_CENTER|RT_VALIGN_CENTER)
 
         self.canvas.flush()
 
@@ -126,7 +123,6 @@ class Schiffe(Screen):
             CELL_SIZE = 40
         else:
             CELL_SIZE = 50
-
         # calculate skindata...
         CELL_OFFSET = 2
         cellfield   = XMAX*CELL_SIZE + (XMAX-1)*CELL_OFFSET
@@ -143,36 +139,36 @@ class Schiffe(Screen):
         W3Y         = cellfield - 16    # widget3 yoffset
 
         # set skin...
-        # Schiffe.skin = """
-            # <screen position="center,center" size="%d,%d" title="Schiffe versenken %s" >
-                # <widget source="Canvas" render="Canvas" position="5,20" size="%d,%d" />
-                # <widget name="message" position="%d,%d" size="140,40" valign="center" halign="center" font="Regular;21"/>
-                # <ePixmap name="green"    position="%d,%d"   zPosition="4" size="140,40" pixmap="skin_default/buttons/green.png" transparent="1" alphatest="on" />
-                # <ePixmap name="blue" position="%d,%d" zPosition="4" size="140,40" pixmap="skin_default/buttons/blue.png" transparent="1" alphatest="on" />
-                # <ePixmap name="red"   position="%d,%d" zPosition="4" size="140,40" pixmap="skin_default/buttons/red.png" transparent="1" alphatest="on" />
-                # <widget name="key_green"    position="%d,%d"   zPosition="5" size="140,40" valign="center" halign="center" font="Regular;21" transparent="1" foregroundColor="white" shadowColor="black" shadowOffset="-1,-1" />
-                # <widget name="key_blue" position="%d,%d" zPosition="5" size="140,40" valign="center" halign="center"  font="Regular;21" transparent="1" foregroundColor="white" shadowColor="black" shadowOffset="-1,-1" />
-                # <widget name="key_red"   position="%d,%d" zPosition="5" size="140,40" valign="center" halign="center" font="Regular;21" transparent="1" foregroundColor="white" shadowColor="black" shadowOffset="-1,-1" />
-            # </screen>""" % (W, H, VERSION, CW, CH, WX, W0Y, WX, W1Y, WX, W2Y, WX, W3Y, WX, W1Y, WX, W2Y, WX, W3Y)
-
-
         Schiffe.skin = """
-            <screen name="Schiffe" position="center,140" size="1800,900" title="Schiffe" backgroundColor="#101010">
-                <ePixmap position="0,0" size="1800,900" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/Schiffe/pic/Schiffe.jpg"/>
-                <ePixmap position="1050,170" size="130,400" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/Schiffe/pic/ship.jpg" zPosition="5" />
-                <widget name="message" position="50,10" size="350,70" valign="center" halign="center" font="Regular;40" foregroundColor="yellow" backgroundColor="#000000" transparent="1" zPosition="1" />
-                <widget source="Canvas" render="Canvas" position="520,150" size="1200,550" backgroundColor="#60ffffff" transparent="1" alphatest="blend" zPosition="2" />
-                <ePixmap position="50,150"  pixmap="buttons/key_green.png"    size="80,40"  alphatest="blend" zPosition="2" />
-                <widget  name="key_green"  font="Regular;30" position="150,150"  size="450,40" halign="left" valign="center" backgroundColor="black" zPosition="1" transparent="1" />
-                <ePixmap position="50,200" pixmap="buttons/key_red.png"      size="80,40"  alphatest="blend" zPosition="2" />
-                <widget  name="key_red"    font="Regular;30" position="150,200" size="450,40" halign="left" valign="center" backgroundColor="black" zPosition="1" transparent="1" />
-                <ePixmap position="50,250" pixmap="buttons/key_blue.png"     size="80,40"  alphatest="blend" zPosition="2" />
-                <widget  name="key_blue"   font="Regular;30" position="150,250" size="450,40" halign="left" valign="center" backgroundColor="black" zPosition="1" transparent="1" />
-                <eLabel position="50,300" size="300,3" backgroundColor="#202020" zPosition="1" />
-                <ePixmap position="50,330" size="80,80" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/Schiffe/pic/rocket.png" alphatest="blend" zPosition="1"/>
-                <widget name="result" render="Label" position="60,335" size="200,34" font="Regular;30" halign="left" foregroundColor="yellow" backgroundColor="#000000" transparent="1" zPosition="3" />
-                <widget name="movex"  render="Label" position="60,375" size="200,34" font="Regular;30" halign="left" foregroundColor="yellow" backgroundColor="#000000" transparent="1" zPosition="3" />
-            </screen>"""
+            <screen position="center,center" size="%d,%d" title="Schiffe versenken %s" >
+                <widget source="Canvas" render="Canvas" position="5,20" size="%d,%d" />
+                <widget name="message" position="%d,%d" size="140,40" valign="center" halign="center" font="Regular;21"/>
+                <ePixmap name="green"    position="%d,%d"   zPosition="4" size="140,40" pixmap="skin_default/buttons/green.png" transparent="1" alphatest="on" />
+                <ePixmap name="blue" position="%d,%d" zPosition="4" size="140,40" pixmap="skin_default/buttons/blue.png" transparent="1" alphatest="on" />
+                <ePixmap name="red"   position="%d,%d" zPosition="4" size="140,40" pixmap="skin_default/buttons/red.png" transparent="1" alphatest="on" />
+                <widget name="key_green"    position="%d,%d"   zPosition="5" size="140,40" valign="center" halign="center" font="Regular;21" transparent="1" foregroundColor="white" shadowColor="black" shadowOffset="-1,-1" />
+                <widget name="key_blue" position="%d,%d" zPosition="5" size="140,40" valign="center" halign="center"  font="Regular;21" transparent="1" foregroundColor="white" shadowColor="black" shadowOffset="-1,-1" />
+                <widget name="key_red"   position="%d,%d" zPosition="5" size="140,40" valign="center" halign="center" font="Regular;21" transparent="1" foregroundColor="white" shadowColor="black" shadowOffset="-1,-1" />
+            </screen>""" % (W, H, VERSION, CW, CH, WX, W0Y, WX, W1Y, WX, W2Y, WX, W3Y, WX, W1Y, WX, W2Y, WX, W3Y)
+
+        if isFHD():
+            Schiffe.skin = """
+                <screen name="Schiffe" position="center,140" size="1800,900" title="Schiffe" backgroundColor="#101010">
+                    <ePixmap position="0,0" size="1800,900" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/Schiffe/pic/Schiffe.jpg"/>
+                    <ePixmap position="1050,170" size="130,400" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/Schiffe/pic/ship.jpg" zPosition="5" />
+                    <widget name="message" position="50,10" size="350,70" valign="center" halign="center" font="Regular;40" foregroundColor="yellow" backgroundColor="#000000" transparent="1" zPosition="1" />
+                    <widget source="Canvas" render="Canvas" position="520,150" size="1200,550" backgroundColor="#60ffffff" transparent="1" alphatest="blend" zPosition="2" />
+                    <ePixmap position="50,150"  pixmap="buttons/key_green.png"    size="80,40"  alphatest="blend" zPosition="2" />
+                    <widget  name="key_green"  font="Regular;30" position="150,150"  size="450,40" halign="left" valign="center" backgroundColor="black" zPosition="1" transparent="1" />
+                    <ePixmap position="50,200" pixmap="buttons/key_red.png"      size="80,40"  alphatest="blend" zPosition="2" />
+                    <widget  name="key_red"    font="Regular;30" position="150,200" size="450,40" halign="left" valign="center" backgroundColor="black" zPosition="1" transparent="1" />
+                    <ePixmap position="50,250" pixmap="buttons/key_blue.png"     size="80,40"  alphatest="blend" zPosition="2" />
+                    <widget  name="key_blue"   font="Regular;30" position="150,250" size="450,40" halign="left" valign="center" backgroundColor="black" zPosition="1" transparent="1" />
+                    <eLabel position="50,300" size="300,3" backgroundColor="#202020" zPosition="1" />
+                    <ePixmap position="50,330" size="80,80" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/Schiffe/pic/rocket.png" alphatest="blend" zPosition="1"/>
+                    <widget name="result" render="Label" position="60,335" size="200,34" font="Regular;30" halign="left" foregroundColor="yellow" backgroundColor="#000000" transparent="1" zPosition="3" />
+                    <widget name="movex"  render="Label" position="60,375" size="200,34" font="Regular;30" halign="left" foregroundColor="yellow" backgroundColor="#000000" transparent="1" zPosition="3" />
+                </screen>"""
 
         # get window background color - find xml for actual skin...
         filename = resolveFilename(SCOPE_CURRENT_SKIN, "skin.xml")
@@ -211,9 +207,9 @@ class Schiffe(Screen):
         self.setTitle("Schiffe versenken %s" % VERSION)
         self["Canvas"] = CanvasSource()
         self["message"] = Label(_("Status"))
-        self["key_green"] = Button(_("new game"))
-        self["key_blue"] = Button(_("solve game"))
-        self["key_red"] = Button(_("quit game"))
+        self["key_green"] = Button(_("New Game"))
+        self["key_blue"] = Button(_("Solve Game"))
+        self["key_red"] = Button(_("Quit Game"))
         self["result"] = Label(_(""))
         self["movex"] = Label(_(""))
         self.cnt = 0;
@@ -351,9 +347,11 @@ class Schiffe(Screen):
 
     # displays moves and time in title...
     def timerHandler(self):
-            # self.instance.setTitle("Schiffe versenken %s %10d shots %10d sec" % (VERSION, self.moves, self.cnt))
-            self["result"].setText("%10d shots" % self.moves)
-            self["movex"].setText("%10d sec" % self.cnt)
+            if isFHD():
+                self["result"].setText("%10d shots" % self.moves)
+                self["movex"].setText("%10d sec" % self.cnt)            
+            else:
+                self.instance.setTitle("Schiffe versenken %s %10d shots %10d sec" % (VERSION, self.moves, self.cnt))
             self.cnt += 1
 
     # create new game...
@@ -395,7 +393,7 @@ class Schiffe(Screen):
     def solve_game(self):
         if not self.gameover:
             self.gameover = True
-            self["message"].setText("you capitulated!")
+            self["message"].setText("You lost!")
             self.timer.stop()
             # show all cells...
             for cell in self.boxCells:
