@@ -17,11 +17,13 @@ from Components.Label import Label
 from Components.ActionMap import ActionMap
 from Tools.Directories import fileExists, resolveFilename, SCOPE_CURRENT_PLUGIN, SCOPE_CURRENT_SKIN
 from enigma import eTimer, gFont, getDesktop, RT_HALIGN_CENTER, RT_VALIGN_CENTER
-import xml.etree.cElementTree
-import random
-import os
+from xml.etree.cElementTree import parse
+from random import randint
+from os import remove
 VERSION = "7.1r0"
 SAVEFILE = resolveFilename(SCOPE_CURRENT_PLUGIN, "Extensions/Schiffe/schiffe.sav")
+
+
 
 XMAX  = 10
 YMAX  = 10
@@ -172,7 +174,7 @@ class Schiffe(Screen):
 
         # get window background color - find xml for actual skin...
         filename = resolveFilename(SCOPE_CURRENT_SKIN, "skin.xml")
-        actualSkin = xml.etree.cElementTree.parse(filename).getroot()
+        actualSkin =parse(filename).getroot()
 
         # get colors from skin and write to dictionary
         colorNames = dict()
@@ -417,8 +419,7 @@ class Schiffe(Screen):
             # else:
                 # # gameover no savefile needed...
                 # if fileExists(SAVEFILE):
-                    # import os
-                    # os.remove(SAVEFILE)
+                    # remove(SAVEFILE)
         except IOError:
             pass
 
@@ -468,7 +469,7 @@ class Schiffe(Screen):
 
 #good old C function :D
 def rand():
-    return random.randint(0, 32767)
+    return randint(0, 32767)
 
 # ships is derived from C++ source code by Stephan Dobretsberger 2001
 def ships(field):
