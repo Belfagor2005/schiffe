@@ -12,7 +12,6 @@
 # ===============================================================================
 from Plugins.Plugin import PluginDescriptor
 from Screens.Screen import Screen
-# from Screens.MessageBox import MessageBox
 from Components.Sources.CanvasSource import CanvasSource
 from Components.Button import Button
 from Components.Label import Label
@@ -42,7 +41,7 @@ def getDesktopSize():
 
 def isFHD():
     desktopSize = getDesktopSize()
-    return desktopSize[0] == 1920
+    return desktopSize[0] >= 1920
 
 
 def main(session, **kwargs):
@@ -53,8 +52,9 @@ def Plugins(**kwargs):
     return [PluginDescriptor(name="Schiffe versenken", description=_("Battleship Game"), where=[PluginDescriptor.WHERE_PLUGINMENU],
             icon="Schiffe.png", fnc=main)]
 
-
 # Game cell...
+
+
 class GameCell:
     def __init__(self, canvas, x, y, w, h):
         self.canvas = canvas
@@ -107,7 +107,7 @@ class GameCell:
             b = 2
             self.canvas.fill(self.x, self.y, self.w, self.h, focus)
 
-        self.canvas.fill(self.x+b, self.y+b, self.w-2*b, self.h-2*b, bg)
+        self.canvas.fill(self.x + b, self.y + b, self.w - 2 * b, self.h - 2 * b, bg)
 
         if self.value_ == 2:
             self.canvas.writeText(self.x, self.y, self.w, self.h, fg, bg, gFont("Regular", 24), '*', RT_HALIGN_CENTER | RT_VALIGN_CENTER)
@@ -118,6 +118,8 @@ class GameCell:
 
 
 # mainwindow...
+
+
 class Schiffe(Screen):
     def __init__(self, session):
         # get framebuffer resolution...
@@ -134,8 +136,8 @@ class Schiffe(Screen):
             CELL_SIZE = 50
         # calculate skindata...
         CELL_OFFSET = 2
-        cellfield = XMAX * CELL_SIZE + (XMAX-1) * CELL_OFFSET
-        CW = 2*cellfield + 150  # canvas w
+        cellfield = XMAX * CELL_SIZE + (XMAX - 1) * CELL_OFFSET
+        CW = 2 * cellfield + 150  # canvas w
         CH = cellfield  # canvas h
         X0_OFFSET = 0  # xoffset cellfield box
         X1_OFFSET = cellfield + 150  # xoffset cellfield you
@@ -162,7 +164,7 @@ class Schiffe(Screen):
 
         if isFHD():
             Schiffe.skin = """
-                <screen name="Schiffe" position="center,140" size="1800,900" title="Schiffe" backgroundColor="#101010">
+                <screen name="Schiffe" position="center,center" size="1800,900" title="Schiffe" backgroundColor="#101010">
                     <ePixmap position="0,0" size="1800,900" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/Schiffe/pic/Schiffe.jpg" />
                     <ePixmap position="1050,170" size="130,400" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/Schiffe/pic/ship.jpg" zPosition="5" />
                     <widget name="message" position="50,10" size="350,70" valign="center" halign="center" font="Regular;40" foregroundColor="yellow" backgroundColor="#000000" transparent="1" zPosition="1" />
@@ -228,8 +230,6 @@ class Schiffe(Screen):
         else:
             self.timer.callback.append(self.timerHandler)
         self.timer.start(150, 1)
-        # self.timer.callback.append(self.timerHandler)
-
         self.message = 0
 
         self["actions"] = ActionMap(["WizardActions", "ColorActions", "SetupActions"],
@@ -318,7 +318,7 @@ class Schiffe(Screen):
             print("Game over, start new game!")
 
     def up_pressed(self):
-        if self.Focus > XMAX-1:
+        if self.Focus > XMAX - 1:
             cell = self.boxCells[self.Focus]
             cell.setFocus(False)
             cell.paint()
@@ -328,7 +328,7 @@ class Schiffe(Screen):
             cell.paint()
 
     def down_pressed(self):
-        if self.Focus < XYMAX-XMAX:
+        if self.Focus < XYMAX - XMAX:
             cell = self.boxCells[self.Focus]
             cell.setFocus(False)
             cell.paint()
@@ -350,8 +350,8 @@ class Schiffe(Screen):
             cell.paint()
 
     def right_pressed(self):
-        if self.Focus < XYMAX-1:
-            if (self.Focus+1) % XMAX == 0:
+        if self.Focus < XYMAX - 1:
+            if (self.Focus + 1) % XMAX == 0:
                 return
             cell = self.boxCells[self.Focus]
             cell.setFocus(False)
@@ -478,15 +478,20 @@ class Schiffe(Screen):
         self.timer.stop()
         self.save_game()
         self.close()
+
+
 # enigma2 stuff ends here... ######
 
 
 # good old C function :D
+
+
 def rand():
     return randint(0, 32767)
 
-
 # ships is derived from C++ source code by Stephan Dobretsberger 2001
+
+
 def ships(field):
     # init shadow map...
     shadow = []
@@ -521,8 +526,8 @@ def ships(field):
 
                         if ok:
                             for j in range(shipLen):
-                                field[x+y*XMAX+j] = 3
-                                shadow[x+j+1][y+1] = 1
+                                field[x + y * XMAX + j] = 3
+                                shadow[x + j + 1][y + 1] = 1
 
                     else:
                         # place ship vertical...
@@ -535,8 +540,8 @@ def ships(field):
 
                         if ok:
                             for j in range(shipLen):
-                                field[x+(y+j)*XMAX] = 3
-                                shadow[x+1][y+j+1] = 1
+                                field[x + (y + j) * XMAX] = 3
+                                shadow[x + 1][y + j + 1] = 1
 
             if not ok:
                 # something went wrong...
@@ -547,28 +552,30 @@ def ships(field):
 
 
 # calcNewField is derived from C++ source code by Stephan Dobretsberger 2001
+
+
 def calcNewField(field):
     for i in range(XYMAX):
         if field[i] == 4:
             lx = i % XMAX
             ly = i // XMAX
             if lx > 0:
-                if field[lx+ly*XMAX-1] == 0:
-                    field[lx+ly*XMAX-1] = 2
+                if field[lx + ly * XMAX - 1] == 0:
+                    field[lx + ly * XMAX - 1] = 2
                     return
-                if field[lx+ly*XMAX-1] == 3:
-                    field[lx+ly*XMAX-1] = 4
+                if field[lx + ly * XMAX - 1] == 3:
+                    field[lx + ly * XMAX - 1] = 4
                     lx -= 1
                     if lx > 0 and ly > 0 and field[lx + ly * XMAX - 1 - XMAX] != 2:
                         field[lx + ly * XMAX - 1 - XMAX] = 1
                     if lx > 0 and ly < YMAX - 1 and field[lx + ly * XMAX - 1 + XMAX] != 2:
                         field[lx + ly * XMAX - 1 + XMAX] = 1
                     if lx < XMAX - 1 and ly > 0 and field[lx + ly * XMAX + 1 - XMAX] != 2:
-                        field[lx+ly*XMAX+1-XMAX] = 1
+                        field[lx + ly * XMAX + 1 - XMAX] = 1
                     if lx < XMAX - 1 and ly < YMAX - 1 and field[lx + ly * XMAX + 1 + XMAX] != 2:
-                        field[lx+ly*XMAX+1+XMAX] = 1
+                        field[lx + ly * XMAX + 1 + XMAX] = 1
                     return
-            if lx < XMAX-1:
+            if lx < XMAX - 1:
                 if field[lx + ly * XMAX + 1] == 0:
                     field[lx + ly * XMAX + 1] = 2
                     return
@@ -598,11 +605,11 @@ def calcNewField(field):
                     if lx < XMAX - 1 and ly > 0 and field[lx + ly * XMAX + 1 - XMAX] != 2:
                         field[lx + ly * XMAX + 1 - XMAX] = 1
                     if lx < XMAX - 1 and ly < YMAX - 1 and field[lx + ly * XMAX + 1 + XMAX] != 2:
-                        field[lx+ly*XMAX+1+XMAX] = 1
+                        field[lx + ly * XMAX + 1 + XMAX] = 1
                     return
             if ly < YMAX - 1:
-                if field[lx + ly * XMAX+XMAX] == 0:
-                    field[lx + ly * XMAX+XMAX] = 2
+                if field[lx + ly * XMAX + XMAX] == 0:
+                    field[lx + ly * XMAX + XMAX] = 2
                     return
                 if field[lx + ly * XMAX + XMAX] == 3:
                     field[lx + ly * XMAX + XMAX] = 4
@@ -610,11 +617,11 @@ def calcNewField(field):
                     if lx > 0 and ly > 0 and field[lx + ly * XMAX - 1 - XMAX] != 2:
                         field[lx + ly * XMAX - 1 - XMAX] = 1
                     if lx > 0 and ly < YMAX - 1 and field[lx + ly * XMAX - 1 + XMAX] != 2:
-                        field[lx+ly*XMAX-1+XMAX] = 1
+                        field[lx + ly * XMAX - 1 + XMAX] = 1
                     if lx < XMAX - 1 and ly > 0 and field[lx + ly * XMAX + 1 - XMAX] != 2:
-                        field[lx+ly*XMAX+1-XMAX] = 1
+                        field[lx + ly * XMAX + 1 - XMAX] = 1
                     if lx < XMAX - 1 and ly < YMAX - 1 and field[lx + ly * XMAX + 1 + XMAX] != 2:
-                        field[lx+ly*XMAX+1+XMAX] = 1
+                        field[lx + ly * XMAX + 1 + XMAX] = 1
                     return
 
     lx = -1
@@ -632,7 +639,7 @@ def calcNewField(field):
             return
 
         if field[x + y * XMAX] == 3:  # hit ship
-            field[x+y*XMAX] = 4
+            field[x + y * XMAX] = 4
             if x > 0 and y > 0:
                 field[x + y * XMAX - 1 - XMAX] = 1
             if x > 0 and y < YMAX - 1:
