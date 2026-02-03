@@ -20,6 +20,7 @@ from Tools.Directories import fileExists, resolveFilename, SCOPE_CURRENT_PLUGIN,
 from enigma import eTimer, gFont, getDesktop, RT_HALIGN_CENTER, RT_VALIGN_CENTER
 from xml.etree.cElementTree import parse
 from random import randint
+from . import _
 import os
 VERSION = "7.1r0"
 SAVEFILE = resolveFilename(SCOPE_CURRENT_PLUGIN, "Extensions/Schiffe/schiffe.sav")
@@ -232,18 +233,24 @@ class Schiffe(Screen):
         self.timer.start(150, 1)
         self.message = 0
 
-        self["actions"] = ActionMap(["WizardActions", "ColorActions", "SetupActions"],
-                                    {
-                                        "ok": self.ok_pressed,
-                                        "up": self.up_pressed,
-                                        "down": self.down_pressed,
-                                        "left": self.left_pressed,
-                                        "right": self.right_pressed,
-                                        "red": self.quit_game,
-                                        "green": self.new_game,
-                                        "blue": self.solve_game,
-                                        "cancel": self.quit_game
-                                    })
+        self["actions"] = ActionMap(
+            [
+                "WizardActions",
+                "ColorActions",
+                "SetupActions"
+            ],
+            {
+                "ok": self.ok_pressed,
+                "up": self.up_pressed,
+                "down": self.down_pressed,
+                "left": self.left_pressed,
+                "right": self.right_pressed,
+                "red": self.quit_game,
+                "green": self.new_game,
+                "blue": self.solve_game,
+                "cancel": self.quit_game
+            }, -1
+        )
 
         # fill canvas with background color...
         self["Canvas"].fill(0, 0, CW, CH, bgcolor)
@@ -430,10 +437,6 @@ class Schiffe(Screen):
                 if (i + 1) % XMAX == 0:
                     sav.write("\n")
             sav.close()
-            # else:
-                # # gameover no savefile needed...
-                # if fileExists(SAVEFILE):
-                    # remove(SAVEFILE)
         except IOError:
             pass
 
