@@ -1,0 +1,18 @@
+{
+  "branch": "main",
+  "depends_recipe": "",
+  "description_control": "Schiffe Battleship Game FHD Modded by Lululla",
+  "description_recipe": "Schiffe Battleship Game FHD Modded by Lululla",
+  "history_source_dir": "schiffe",
+  "internal_package_name": "enigma2-plugin-extensions-schiffe",
+  "module_dir_name": "Schiffe",
+  "output_subdir": "schiffe",
+  "package_name": "enigma2-plugin-extensions-schiffe",
+  "plugin_src_rel": "schiffe",
+  "python_package": "Schiffe",
+  "rdepends_recipe": "",
+  "replaces": "",
+  "repo_name": "schiffe",
+  "rrecommends": "",
+  "rreplaces": ""
+}
