@@ -1,35 +1,35 @@
 
 
-# <p align="center">schiffe Plugin for Enigma2 (E²) ![GitHub repo size](https://img.shields.io/github/repo-size/oe-alliance-plugins/schiffe.svg)</p>
+# <p align="center">Schiffe Plugin for Enigma2 (E²) ![GitHub repo size](https://img.shields.io/github/repo-size/oe-alliance-plugins/Schiffe.svg)</p>
 
 **Schiffe Battleship Game FHD Modded by Lululla**
 
 
 ## Github status
-[![Build](https://github.com/oe-alliance-plugins/schiffe/actions/workflows/buildbot.yml/badge.svg)](https://github.com/oe-alliance-plugins/schiffe/actions/workflows/buildbot.yml)
-[![Lint Status](https://github.com/oe-alliance-plugins/schiffe/actions/workflows/pylint.yml/badge.svg)](https://github.com/oe-alliance-plugins/schiffe/actions/workflows/pylint.yml)
-[![Ruff Status](https://github.com/oe-alliance-plugins/schiffe/actions/workflows/ruff.yml/badge.svg)](https://github.com/oe-alliance-plugins/schiffe/actions/workflows/ruff.yml)
-[![Build Status](https://github.com/oe-alliance-plugins/schiffe/actions/workflows/compile.yml/badge.svg)](https://github.com/oe-alliance-plugins/schiffe/actions/workflows/compile.yml)
-[![AUTOTAG](https://github.com/oe-alliance-plugins/schiffe/actions/workflows/autotag.yml/badge.svg)](https://github.com/oe-alliance-plugins/schiffe/actions/workflows/autotag.yml)
+[![Build](https://github.com/oe-alliance-plugins/Schiffe/actions/workflows/buildbot.yml/badge.svg)](https://github.com/oe-alliance-plugins/Schiffe/actions/workflows/buildbot.yml)
+[![Lint Status](https://github.com/oe-alliance-plugins/Schiffe/actions/workflows/pylint.yml/badge.svg)](https://github.com/oe-alliance-plugins/Schiffe/actions/workflows/pylint.yml)
+[![Ruff Status](https://github.com/oe-alliance-plugins/Schiffe/actions/workflows/ruff.yml/badge.svg)](https://github.com/oe-alliance-plugins/Schiffe/actions/workflows/ruff.yml)
+[![Build Status](https://github.com/oe-alliance-plugins/Schiffe/actions/workflows/compile.yml/badge.svg)](https://github.com/oe-alliance-plugins/Schiffe/actions/workflows/compile.yml)
+[![AUTOTAG](https://github.com/oe-alliance-plugins/Schiffe/actions/workflows/autotag.yml/badge.svg)](https://github.com/oe-alliance-plugins/Schiffe/actions/workflows/autotag.yml)
 
 
-[![Plugin Version](https://img.shields.io/github/v/tag/oe-alliance-plugins/schiffe?label=Latest%20Version&color=darkviolet)](https://github.com/oe-alliance-plugins/schiffe/tags)
-[![Latest Release](https://img.shields.io/github/release-date/oe-alliance-plugins/schiffe?label=From&color=darkviolet)](https://github.com/oe-alliance-plugins/schiffe/releases/latest)
-[![Github last commit](https://img.shields.io/github/last-commit/oe-alliance-plugins/schiffe)](https://github.com/oe-alliance-plugins/schiffe)
-[![GitHub Activity](https://img.shields.io/github/commit-activity/y/oe-alliance-plugins/schiffe.svg?label=commits)](https://github.com/oe-alliance-plugins/schiffe/commits)
-[![GitHub Activity](https://img.shields.io/github/commit-activity/m/oe-alliance-plugins/schiffe.svg?label=commits)](https://github.com/oe-alliance-plugins/schiffe/commits)
+[![Plugin Version](https://img.shields.io/github/v/tag/oe-alliance-plugins/Schiffe?label=Latest%20Version&color=darkviolet)](https://github.com/oe-alliance-plugins/Schiffe/tags)
+[![Latest Release](https://img.shields.io/github/release-date/oe-alliance-plugins/Schiffe?label=From&color=darkviolet)](https://github.com/oe-alliance-plugins/Schiffe/releases/latest)
+[![Github last commit](https://img.shields.io/github/last-commit/oe-alliance-plugins/Schiffe)](https://github.com/oe-alliance-plugins/Schiffe)
+[![GitHub Activity](https://img.shields.io/github/commit-activity/y/oe-alliance-plugins/Schiffe.svg?label=commits)](https://github.com/oe-alliance-plugins/Schiffe/commits)
+[![GitHub Activity](https://img.shields.io/github/commit-activity/m/oe-alliance-plugins/Schiffe.svg?label=commits)](https://github.com/oe-alliance-plugins/Schiffe/commits)
 
 ## SonarCloud status
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=oe-alliance-plugins_schiffe&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=oe-alliance-plugins_schiffe)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=oe-alliance-plugins_schiffe&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=oe-alliance-plugins_schiffe)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=oe-alliance-plugins_schiffe&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=oe-alliance-plugins_schiffe)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=oe-alliance-plugins_schiffe&metric=bugs)](https://sonarcloud.io/summary/new_code?id=oe-alliance-plugins_schiffe)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=oe-alliance-plugins_schiffe&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=oe-alliance-plugins_schiffe)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=oe-alliance-plugins_schiffe&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=oe-alliance-plugins_schiffe)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=oe-alliance-plugins_schiffe&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=oe-alliance-plugins_schiffe)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=oe-alliance-plugins_schiffe&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=oe-alliance-plugins_schiffe)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=oe-alliance-plugins_Schiffe&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=oe-alliance-plugins_Schiffe)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=oe-alliance-plugins_Schiffe&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=oe-alliance-plugins_Schiffe)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=oe-alliance-plugins_Schiffe&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=oe-alliance-plugins_Schiffe)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=oe-alliance-plugins_Schiffe&metric=bugs)](https://sonarcloud.io/summary/new_code?id=oe-alliance-plugins_Schiffe)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=oe-alliance-plugins_Schiffe&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=oe-alliance-plugins_Schiffe)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=oe-alliance-plugins_Schiffe&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=oe-alliance-plugins_Schiffe)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=oe-alliance-plugins_Schiffe&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=oe-alliance-plugins_Schiffe)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=oe-alliance-plugins_Schiffe&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=oe-alliance-plugins_Schiffe)
 
-[![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-light.svg)](https://sonarcloud.io/summary/new_code?id=oe-alliance-plugins_schiffe)
+[![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-light.svg)](https://sonarcloud.io/summary/new_code?id=oe-alliance-plugins_Schiffe)
 
 ---
 
@@ -45,7 +45,7 @@ This plugin is released under GPLv3. See [LICENSE](https://www.gnu.org/licenses/
 
 ### 🤝 Contributing & Contact
 
-schiffe is created by users for users and we welcome every contribution. There are no highly paid developers. There are only users who have seen a problem and done their best to fix it. This means schiffe will always need the contributions of users like you. How can you get involved?
+Schiffe is created by users for users and we welcome every contribution. There are no highly paid developers. There are only users who have seen a problem and done their best to fix it. This means Schiffe will always need the contributions of users like you. How can you get involved?
 
 For questions or feedback, feel free and please open an issue or contribute with a Pull Request!
 
