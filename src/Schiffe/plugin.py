@@ -10,7 +10,6 @@
 #===============================================================================
 from Plugins.Plugin import PluginDescriptor
 from Screens.Screen import Screen
-from Screens.MessageBox import MessageBox
 from Components.Sources.CanvasSource import CanvasSource
 from Components.Button import Button
 from Components.Label import Label
@@ -19,7 +18,6 @@ from Tools.Directories import fileExists, resolveFilename, SCOPE_CURRENT_PLUGIN,
 from enigma import eTimer, gFont, getDesktop, RT_HALIGN_CENTER, RT_VALIGN_CENTER
 from xml.etree.cElementTree import parse
 from random import randint
-from os import remove
 VERSION = "7.1r0"
 SAVEFILE = resolveFilename(SCOPE_CURRENT_PLUGIN, "Extensions/Schiffe/schiffe.sav")
 
