@@ -1,5 +1,7 @@
 [tool.ruff]
 builtins = ["_", "ngettext", "pgettext"]
+
+[tool.ruff.lint]
 select = ["E","F","W"]
 ignore = ["W191","E501"]
 
