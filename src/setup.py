@@ -3,7 +3,7 @@ import setup_translate
 
 pkg = 'Extensions.Schiffe'
 setup(name='enigma2-plugin-extensions-schiffe',
-       version='3.0',
+       version='7.1.1',
        description='Schiffe Battleship Game FHD Modded by Lululla',
        package_dir={pkg: 'Schiffe'},
        packages=[pkg],
